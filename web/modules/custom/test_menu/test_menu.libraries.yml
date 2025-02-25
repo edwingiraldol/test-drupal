@@ -1,0 +1,5 @@
+test_menu:
+  version: 1.0
+  css:
+    theme:
+      css/test_menu.css: {}

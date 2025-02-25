@@ -1,0 +1,38 @@
+uuid: 719def4e-c596-45c2-8acf-d945b619831b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.menu_link_content.field_background
+    - system.menu.main
+  module:
+    - image
+id: menu_link_content.main.field_background
+field_name: field_background
+entity_type: menu_link_content
+bundle: main
+label: Background
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'png gif jpg jpeg webp'
+  max_filesize: ''
+  max_resolution: ''
+  min_resolution: ''
+  alt_field: true
+  alt_field_required: true
+  title_field: false
+  title_field_required: false
+  default_image:
+    uuid: ''
+    alt: ''
+    title: ''
+    width: null
+    height: null
+field_type: image

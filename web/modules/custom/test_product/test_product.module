@@ -1,0 +1,138 @@
+<?php
+
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * @file
+ * Primary module hooks for Test Product module.
+ */
+
+/**
+ * Implements hook_form_alter().
+ *
+ * Alters the product node edit/add form to add custom validation.
+ *
+ * @param array &$form
+ *   The form array.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   The current state of the form.
+ * @param string $form_id
+ *   The form ID.
+ */
+function test_product_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  if($form_id == 'node_product_edit_form' or $form_id == 'node_product_add_form') {
+    $form['#validate'][] = '_test_product_custom_validate';
+  }
+}
+
+/**
+ * Custom validation handler for the product form.
+ *
+ * Ensures that a maximum of 5 products can be set as "Product of the Day."
+ *
+ * @param array $form
+ *   The form array.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   The current state of the form.
+ */
+function _test_product_custom_validate($form, FormStateInterface $form_state) {
+
+  if($form_state->getValue('field_product_of_the_day')['value']) {
+
+    $entity_type_manager = \Drupal::entityTypeManager();
+
+    // Get the node storage handler.
+    $node_storage = $entity_type_manager->getStorage('node');
+
+    // Build the entity query.
+    $query = $node_storage->getQuery();
+    $query->condition('type', 'product')  // Ensure it's targeting the correct content type.
+      ->condition('field_product_of_the_day', TRUE)
+      ->accessCheck(FALSE) // Set to FALSE to count all nodes regardless of access.
+      ->count();
+    // Execute the query and get the result.
+    $count = $query->execute();
+    if($count >= 5) {
+      $form_state->setErrorByName('field_product_of_the_day', t('Max 5 products of the day'));
+    }
+
+  }
+}
+
+/**
+ * Implements hook_theme().
+ *
+ * Defines theme implementations for the Test Product module.
+ *
+ * @return array
+ *   An array of theme implementations.
+ */
+function test_product_theme() {
+  return [
+    'node__product__teaser' => [
+      'render element' => 'elements',
+      'base hook' => 'node',
+      'template' => 'node--product--teaser',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_cron().
+ *
+ * Sends weekly product emails every Monday at 2 AM.
+ */
+function test_product_cron() {
+  // Only execute on Monday at 2 AM
+  $current_time = \Drupal::time()->getRequestTime();
+  $time_data = getdate($current_time);
+  $hour = $time_data['hours'];
+  $weekday = $time_data['wday'];
+
+  if ($hour == 2 && $weekday == 1) {
+    // Get the email addresses from your stored configuration or wherever applicable.
+    $config = \Drupal::config('test_product.settings');
+    $adminEmails = $config->get('admins_to_send_mail') ?: [];
+
+    // Execute the email sending logic.
+    \Drupal::service('test_product.highlighted_product_mailer')->sendWeeklyProductEmails($adminEmails);
+  }
+}
+
+
+/**
+ * Implements hook_mail().
+ *
+ * Defines mail messages for the Test Product module.
+ *
+ * @param string $key
+ *   The mail key identifying the mail process.
+ * @param array &$message
+ *   The mail message array.
+ * @param array $params
+ *   Additional parameters for the message.
+ */
+function test_product_mail($key, &$message, $params) {
+  switch ($key) {
+    case 'highlighted_products':
+      $message['subject'] = $params['subject'];
+      $message['body'][] = $params['body'];
+      break;
+  }
+}
+
+/**
+ * Implements hook_views_pre_render().
+ *
+ * Modifies views before rendering, specifically attaching CSS for specific view.
+ *
+ * @param \Drupal\views\ViewExecutable $view
+ *   The view executable object.
+ */
+function test_product_views_pre_render(\Drupal\views\ViewExecutable $view) {
+  // Check for the specific view and display.
+  if ($view->id() === 'product_of_the_day' && $view->current_display === 'block_1') {
+    // Attach the CSS file.
+    $view->element['#attached']['library'][] = 'test_product/test_product';
+  }
+}

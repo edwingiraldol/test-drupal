@@ -1,0 +1,4 @@
+services:
+  test_menu.banner_service:
+    class: Drupal\test_menu\Service\BannerService
+    arguments: ['@plugin.manager.menu.link']

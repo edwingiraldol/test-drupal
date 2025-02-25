@@ -1,0 +1,5 @@
+test_product.settings:
+  title: Settings product
+  parent: system.admin_config_system
+  route_name: test_product.settings
+  weight: 10

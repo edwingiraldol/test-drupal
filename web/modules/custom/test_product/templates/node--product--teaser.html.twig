@@ -1,0 +1,11 @@
+<div class="product-teaser">
+  <div class="product-image">
+    {{ content.field_product_image }}
+  </div>
+  <div class="product-info">
+    <h2>{{ label }}</h2>
+    <p>{{ content.field_summary_product }}</p>
+    <a href="{{ path('test_product.add_data_product', {'product_id': node.id()}) }}" class="product-of-the-day">Details</a>
+
+  </div>
+</div>

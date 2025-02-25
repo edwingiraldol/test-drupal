@@ -1,0 +1,7 @@
+name: 'Test menu'
+type: module
+description: 'All functions about  menu test'
+package: Custom
+core_version_requirement: ^10 || ^11
+dependencies:
+  - drupal:menu_item_extras

@@ -1,0 +1,53 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Test Product module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function test_product_schema() {
+  $schema['test_register_product_cta'] = [
+    'description' => 'Stores product data actions.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'uid' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => FALSE,
+        'default' => 0,
+        'description' => 'User ID if logged in.',
+      ],
+      'product_id' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Product Node ID.',
+      ],
+      'ip' => [
+        'type' => 'varchar',
+        'length' => 45,
+        'description' => 'IP address of the user.',
+      ],
+      'user_type' => [
+        'type' => 'varchar',
+        'length' => 20,
+        'description' => 'Anonymous or registered user.',
+      ],
+      'created' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'description' => 'Date of creation.',
+      ],
+    ],
+    'primary key' => ['id'],
+  ];
+
+  return $schema;
+}

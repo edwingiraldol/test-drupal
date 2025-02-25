@@ -1,0 +1,4 @@
+services:
+  test_product.highlighted_product_mailer:
+    class: Drupal\test_product\Service\HighlightedProductMailer
+    arguments: ['@database', '@date.formatter', '@plugin.manager.mail', '@logger.factory', '@config.factory']

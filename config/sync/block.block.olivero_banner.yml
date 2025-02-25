@@ -1,0 +1,21 @@
+uuid: cd234320-157c-4e0f-a37c-cdbb0fc3816a
+langcode: en
+status: true
+dependencies:
+  module:
+    - test_menu
+  theme:
+    - olivero
+id: olivero_banner
+theme: olivero
+region: hero
+weight: -7
+provider: null
+plugin: test_menu_banner
+settings:
+  id: test_menu_banner
+  label: Banner
+  label_display: '0'
+  provider: test_menu
+  title: 'this is an example'
+visibility: {  }

@@ -1,0 +1,31 @@
+uuid: 1482dc36-f06f-4839-a118-e36c0a5e9e92
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.menu_link_content.main.field_background
+    - system.menu.main
+  module:
+    - image
+id: menu_link_content.main.default
+targetEntityType: menu_link_content
+bundle: main
+mode: default
+content:
+  children:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_background:
+    type: image
+    label: above
+    settings:
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 2
+    region: content
+hidden: {  }

@@ -1,0 +1,25 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for Test menu module.
+ */
+
+/**
+ * Implements hook_theme().
+ *
+ * Defines theme implementations for the Test menu module.
+ *
+ * @return array
+ *   An array of theme implementations.
+ */
+function test_menu_theme() {
+  return [
+    'block__test_menu__banner' => [
+      'variables' => [
+        'title' => NULL,
+        'background_image' => NULL,
+      ],
+    ],
+  ];
+}
