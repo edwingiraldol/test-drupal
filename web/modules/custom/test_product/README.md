@@ -8,6 +8,7 @@ The Test Product module provides enhanced functionality for managing and promoti
 - Sends weekly emails highlighting products of the day to admin users.
 - Provides a configuration form for setting email recipients and the number of products to highlight.
 - Integrates with Views for product-related displays with custom theming capabilities.
+-  settings page located at `/admin/config/system/test-product-settings`
 
 ## Requirements
 
