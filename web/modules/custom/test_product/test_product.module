@@ -20,7 +20,7 @@ use Drupal\Core\Form\FormStateInterface;
  *   The form ID.
  */
 function test_product_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-  if($form_id == 'node_product_edit_form' or $form_id == 'node_product_add_form') {
+  if($form_id == 'node_product_edit_form' or $form_id == 'node_product_form') {
     $form['#validate'][] = '_test_product_custom_validate';
   }
 }
@@ -48,12 +48,12 @@ function _test_product_custom_validate($form, FormStateInterface $form_state) {
     $query = $node_storage->getQuery();
     $query->condition('type', 'product')  // Ensure it's targeting the correct content type.
       ->condition('field_product_of_the_day', TRUE)
-      ->accessCheck(FALSE) // Set to FALSE to count all nodes regardless of access.
+      ->accessCheck(FALSE) // Set FALSE to count all nodes regardless of access.
       ->count();
     // Execute the query and get the result.
     $count = $query->execute();
     if($count >= 5) {
-      $form_state->setErrorByName('field_product_of_the_day', t('Max 5 products of the day'));
+      $form_state->setErrorByName('field_product_of_the_day', t('Your already have 5 products of the day'));
     }
 
   }
